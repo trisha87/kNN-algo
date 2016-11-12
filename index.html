@@ -24,27 +24,48 @@
 
 <p>Most of the time, we love to ask for recommendation from our friends before experimenting new things. We usually start with those whose taste we feel we share and we deduce that we will like too. This is the basic intuition behind k-Nearest Neighbors Algorithm. Although this is perhaps one of the simplest machine learning algorithms, it is still used widely.  </p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
-
 <h3>
 <a id="detailed-design" class="anchor" href="#detailed-design" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Detailed Design</h3>
 
 <p>Lets check how we can implement this algorithm using R.
-First we will read the data and visualize using scatter plot.
-<code>
-   library(ggplot2)
+First we will read the data and visualize using scatter plot.</p>
+
+<pre><code>   library(ggplot2)
    knn.df &lt;- read.csv("dummy_data.csv")
    head(knn.df)
    knn.df$Y &lt;- factor(knn.df$Y)
    ggplot(knn.df, aes(x=X1, y=X2, shape=Y, color=Y)) +
      geom_point()
-</code></p>
+</code></pre>
 
-<p><img src="https://github.com/trisha87/kNN-algo/blob/gh-pages/images/knn-scatterplot.png" alt="knn-scatterplot">
-We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
+<p><img src="https://github.com/trisha87/kNN-algo/blob/gh-pages/images/knn-scatterplot.png" alt="knn-scatterplot"></p>
+
+<p>Now we want to classify whether a new data(X1 and X2 given) will be assigned to 0 or 1 for Y. For this, we have to calculate the distance vector for this test data.</p>
+
+<pre><code>dist.vectr &lt;- fuction(knn.df, testdata)
+{
+  dist &lt;- vector(, nrow(knn.df))
+  for(i in 1:nrow(knn.df))
+  {
+    dist[i] &lt;- sqrt((knn.df[i, 'X1'] - testdata[1])^2 + (knn.df[i, 'X2'] - testdata[2])^2)
+  }
+  return(dist)
+}
+</code></pre>
+
+<p>Once we have distance vector ready, we will require another function which will return the nearest data point. First we will sort the distance vector and get the first k nearest entries</p>
+
+<pre><code>knn.points &lt;- function(knn.df, k=5)
+{
+  dist &lt;- dist.vectr(knn.df, testdata)
+  indices &lt;- order(dist)[1:k]
+  predicted.y &lt;- ifelse(mean(knn.df[indices, 'Y']) &gt; 0.5, 1, 0)
+  return(predicted.y)
+}
+</code></pre>
 
 <h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
+<a id="using-r-package" class="anchor" href="#using-r-package" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using R Package</h3>
 
 <p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
 
