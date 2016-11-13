@@ -30,39 +30,36 @@
 <p>Lets check how we can implement this algorithm using R.
 First we will read the data and visualize using scatter plot.</p>
 
-<pre><code>   library(ggplot2)
-   knn.df &lt;- read.csv("dummy_data.csv")
-   head(knn.df)
-   knn.df$Y &lt;- factor(knn.df$Y)
-   ggplot(knn.df, aes(x=X1, y=X2, shape=Y, color=Y)) +
-     geom_point()
-</code></pre>
+<div class="highlight highlight-source-r"><pre>   library(<span class="pl-smi">ggplot2</span>)
+   <span class="pl-smi">knn.df</span> <span class="pl-k">&lt;-</span> read.csv(<span class="pl-s"><span class="pl-pds">"</span>dummy_data.csv<span class="pl-pds">"</span></span>)
+   head(<span class="pl-smi">knn.df</span>)
+   <span class="pl-smi">knn.df</span><span class="pl-k">$</span><span class="pl-smi">Y</span> <span class="pl-k">&lt;-</span> <span class="pl-k">factor</span>(<span class="pl-smi">knn.df</span><span class="pl-k">$</span><span class="pl-smi">Y</span>)
+   ggplot(<span class="pl-smi">knn.df</span>, aes(<span class="pl-v">x</span><span class="pl-k">=</span><span class="pl-smi">X1</span>, <span class="pl-v">y</span><span class="pl-k">=</span><span class="pl-smi">X2</span>, <span class="pl-v">shape</span><span class="pl-k">=</span><span class="pl-smi">Y</span>, <span class="pl-v">color</span><span class="pl-k">=</span><span class="pl-smi">Y</span>)) <span class="pl-k">+</span>
+     geom_point()</pre></div>
 
 <p><img src="https://raw.githubusercontent.com/trisha87/kNN-algo/gh-pages/images/knn-scatterplot.png" alt="knn-scatterplot"></p>
 
 <p>Now we want to classify whether a new data(X1 and X2 given) will be assigned to 0 or 1 for Y. For this, we have to calculate the distance vector for this test data.</p>
 
-<pre><code>dist.vectr &lt;- fuction(knn.df, testdata)
+<div class="highlight highlight-source-r"><pre><span class="pl-smi">dist.vectr</span> <span class="pl-k">&lt;-</span> fuction(<span class="pl-smi">knn.df</span>, <span class="pl-smi">testdata</span>)
 {
-  dist &lt;- vector(, nrow(knn.df))
-  for(i in 1:nrow(knn.df))
+  <span class="pl-smi">dist</span> <span class="pl-k">&lt;-</span> vector(, nrow(<span class="pl-smi">knn.df</span>))
+  <span class="pl-k">for</span>(<span class="pl-smi">i</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">:</span>nrow(<span class="pl-smi">knn.df</span>))
   {
-    dist[i] &lt;- sqrt((knn.df[i, 'X1'] - testdata[1])^2 + (knn.df[i, 'X2'] - testdata[2])^2)
+    <span class="pl-smi">dist</span>[<span class="pl-smi">i</span>] <span class="pl-k">&lt;-</span> sqrt((<span class="pl-smi">knn.df</span>[<span class="pl-smi">i</span>, <span class="pl-s"><span class="pl-pds">'</span>X1<span class="pl-pds">'</span></span>] <span class="pl-k">-</span> <span class="pl-smi">testdata</span>[<span class="pl-c1">1</span>])<span class="pl-k">^</span><span class="pl-c1">2</span> <span class="pl-k">+</span> (<span class="pl-smi">knn.df</span>[<span class="pl-smi">i</span>, <span class="pl-s"><span class="pl-pds">'</span>X2<span class="pl-pds">'</span></span>] <span class="pl-k">-</span> <span class="pl-smi">testdata</span>[<span class="pl-c1">2</span>])<span class="pl-k">^</span><span class="pl-c1">2</span>)
   }
-  return(dist)
-}
-</code></pre>
+  <span class="pl-k">return</span>(<span class="pl-smi">dist</span>)
+}</pre></div>
 
 <p>Once we have distance vector ready, we will require another function which will return the nearest data point. First we will sort the distance vector and get the first k nearest entries</p>
 
-<pre><code>knn.points &lt;- function(knn.df, k=5)
+<div class="highlight highlight-source-r"><pre><span class="pl-en">knn.points</span> <span class="pl-k">&lt;-</span> <span class="pl-k">function</span>(<span class="pl-smi">knn.df</span>, <span class="pl-v">k</span><span class="pl-k">=</span><span class="pl-c1">5</span>)
 {
-  dist &lt;- dist.vectr(knn.df, testdata)
-  indices &lt;- order(dist)[1:k]
-  predicted.y &lt;- ifelse(mean(knn.df[indices, 'Y']) &gt; 0.5, 1, 0)
-  return(predicted.y)
-}
-</code></pre>
+  <span class="pl-smi">dist</span> <span class="pl-k">&lt;-</span> dist.vectr(<span class="pl-smi">knn.df</span>, <span class="pl-smi">testdata</span>)
+  <span class="pl-smi">indices</span> <span class="pl-k">&lt;-</span> order(<span class="pl-smi">dist</span>)[<span class="pl-c1">1</span><span class="pl-k">:</span><span class="pl-smi">k</span>]
+  <span class="pl-smi">predicted.y</span> <span class="pl-k">&lt;-</span> ifelse(mean(<span class="pl-smi">knn.df</span>[<span class="pl-smi">indices</span>, <span class="pl-s"><span class="pl-pds">'</span>Y<span class="pl-pds">'</span></span>]) <span class="pl-k">&gt;</span> <span class="pl-c1">0.5</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>)
+  <span class="pl-k">return</span>(<span class="pl-smi">predicted.y</span>)
+}</pre></div>
 
 <h3>
 <a id="using-r-package" class="anchor" href="#using-r-package" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using R Package</h3>
