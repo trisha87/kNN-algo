@@ -41,7 +41,7 @@ First we will read the data and visualize using scatter plot.</p>
 
 <p>Now we want to classify whether a new data(X1 and X2 given) will be assigned to 0 or 1 for Y. For this, we have to calculate the distance vector for this test data.</p>
 
-<div class="highlight highlight-source-r"><pre><span class="pl-smi">dist.vectr</span> <span class="pl-k">&lt;-</span> fuction(<span class="pl-smi">knn.df</span>, <span class="pl-smi">testdata</span>)
+<div class="highlight highlight-source-r"><pre><span class="pl-en">dist.vectr</span> <span class="pl-k">&lt;-</span> <span class="pl-k">function</span>(<span class="pl-smi">knn.df</span>, <span class="pl-smi">testdata</span>)
 {
   <span class="pl-smi">dist</span> <span class="pl-k">&lt;-</span> vector(, nrow(<span class="pl-smi">knn.df</span>))
   <span class="pl-k">for</span>(<span class="pl-smi">i</span> <span class="pl-k">in</span> <span class="pl-c1">1</span><span class="pl-k">:</span>nrow(<span class="pl-smi">knn.df</span>))
@@ -63,18 +63,6 @@ First we will read the data and visualize using scatter plot.</p>
 
 <h3>
 <a id="using-r-package" class="anchor" href="#using-r-package" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using R Package</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can @mention a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/trisha87/kNN-algo">KNN-Algorithm</a> is maintained by <a href="https://github.com/trisha87">trisha87</a>.</span>
